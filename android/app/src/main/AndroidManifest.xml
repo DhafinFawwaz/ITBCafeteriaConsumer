@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kelompok23.itb_cafeteria_consumer">
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="itb_cafeteria_consumer"
+        android:label="ITB Cafeteria"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
