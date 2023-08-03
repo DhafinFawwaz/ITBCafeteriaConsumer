@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:itb_cafeteria_consumer/screens/home/home.dart';
+import 'screens/kantin/kantin.dart';
+import 'screens/nav/nav.dart';
 import 'screens/auth/login.dart';
 import 'screens/auth/register.dart';
 import 'services/shared_service.dart';
@@ -11,7 +12,7 @@ void main() async {
 
   bool _result = await SharedService.isLoggedIn();
   if(_result) {
-    _defaultHome = const HomePage();
+    _defaultHome = const NavPage();
   }
 
   runApp(const MyApp());
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => _defaultHome,
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const NavPage(),
+        // '/kantin': (context) => const KantinPage(),
       },
       
     );

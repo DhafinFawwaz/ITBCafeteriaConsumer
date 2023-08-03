@@ -38,6 +38,7 @@ dependencies:
 
   api_cache_manager: ^1.0.2
   http: ^0.13.5
+  group_button: ^5.3.2
 
 dev_dependencies:
   flutter_test:
