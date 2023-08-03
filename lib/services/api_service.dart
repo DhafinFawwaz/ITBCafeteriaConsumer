@@ -12,7 +12,7 @@ class APIService {
   static Future<LoginResponse> login(LoginRequest model) async {
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
-      'Accept': 'application/json',
+      'Accept': '*/*'
     };
     var uri = Uri.parse(Config.loginURL);
 
@@ -21,7 +21,6 @@ class APIService {
       headers: requestHeaders,
       body: jsonEncode(model.toJson()),
     );
-    print(response.body);
     if (response.statusCode == 200) {
       await SharedService.setLoginDetails(loginResponse(response.body));
     }
@@ -34,16 +33,14 @@ class APIService {
       'Accept': 'application/json',
       'Authorization': 'Bearer ',
     };
-
+    
     var url = Uri.parse(Config.registerURL);
-
     var response = await client.post(
       url,
       headers: requestHeaders,
       body: jsonEncode(model.toJson()),
     );
     return registerResponse(response.body);
-
   }
 
   static Future<String> getUserProfile() async {
