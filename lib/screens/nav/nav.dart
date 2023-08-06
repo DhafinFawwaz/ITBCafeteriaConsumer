@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:itb_cafeteria_consumer/screens/home/home.dart';
 import 'package:itb_cafeteria_consumer/screens/history/history.dart';
 import 'package:itb_cafeteria_consumer/screens/profile/profile.dart';
@@ -27,7 +28,9 @@ class BottomTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon),
-        Text(text)
+        Text(
+          text,
+          style: GoogleFonts.inter(),)
       ],
     )),
     );

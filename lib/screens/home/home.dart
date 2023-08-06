@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:itb_cafeteria_consumer/screens/kantin/kantin.dart';
 import 'package:itb_cafeteria_consumer/utils/GlobalTheme.dart';
 
@@ -35,9 +36,9 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
               
-                const Text(
+                Text(
                   "Kantin",
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: GlobalTheme.fontsize1,
                     fontWeight: FontWeight.bold
                   ),
@@ -51,6 +52,9 @@ class _HomeState extends State<Home> {
                     height: 400.0,
                     width: 400.0,
                     color: GlobalTheme.slate200,
+                    child: Image.asset(
+                      "assets/images/mapITB.png",
+                      fit: BoxFit.contain,),
                   ),
                 ),
 
@@ -100,9 +104,9 @@ class _HomeState extends State<Home> {
               
                 SizedBox(height: GlobalTheme.padding1),
               
-                const Text(
+                Text(
                   "Status Order",
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: GlobalTheme.fontsize1,
                     fontWeight: FontWeight.bold
                   ),
