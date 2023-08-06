@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itb_cafeteria_consumer/utils/GlobalTheme.dart';
 import 'screens/kantin/kantin.dart';
 import 'screens/nav/nav.dart';
 import 'screens/auth/login.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
 
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.orange,
       ),
       routes: {
         '/': (context) => _defaultHome,

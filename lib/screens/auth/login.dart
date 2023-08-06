@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itb_cafeteria_consumer/model/login_model.dart';
+import 'package:itb_cafeteria_consumer/model/auth/login_model.dart';
 import '../../services/api_service.dart';
 import '../../widgets/normal_button.dart';
 class LoginPage extends StatefulWidget {

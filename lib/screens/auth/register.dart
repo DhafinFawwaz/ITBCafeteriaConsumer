@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../model/register_model.dart';
+import '../../model/auth/register_model.dart';
 import '../../services/api_service.dart';
 import '../../widgets/floating_back_button.dart';
 import '../../widgets/normal_button.dart';

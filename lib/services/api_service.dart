@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:itb_cafeteria_consumer/model/login_model.dart';
-import 'package:itb_cafeteria_consumer/model/register_model.dart';
+import 'package:itb_cafeteria_consumer/model/auth/login_model.dart';
+import 'package:itb_cafeteria_consumer/model/auth/register_model.dart';
+import 'package:itb_cafeteria_consumer/model/profile/profile_model.dart';
 import 'package:itb_cafeteria_consumer/services/shared_service.dart';
 
 import '../config/config.dart';
@@ -43,7 +44,7 @@ class APIService {
     return registerResponse(response.body);
   }
 
-  static Future<String> getUserProfile() async {
+  static Future<ProfileResponse> getUserProfile() async {
     var loginDetails = await SharedService.loginDetails();
 
     Map<String, String> requestHeaders = {
@@ -53,19 +54,12 @@ class APIService {
 
     var url = Uri.parse('${Config.profileURL}?id=${loginDetails.data!.id}');
     
-
     var response = await client.get(
       url,
       headers: requestHeaders,
     );
 
-
-    if(response.statusCode == 200) {
-      return response.body;
-    } else {
-      return '';
-    }
-
+    return ProfileResponse.fromJson(jsonDecode(response.body));
   }
 
 }

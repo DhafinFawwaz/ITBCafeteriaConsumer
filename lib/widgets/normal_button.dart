@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../utils/GlobalTheme.dart';
+
 class NormalButton extends StatelessWidget {
-  const NormalButton ({super.key, required this.text, required this.onPressed});
+  const NormalButton ({
+    super.key, required this.text, required this.onPressed,
+    this.backgroundColor = GlobalTheme.primaryColor, this.textColor = Colors.white
+  });
 
   final String text;
   final VoidCallback onPressed;
 
+  final Color? backgroundColor;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +20,7 @@ class NormalButton extends StatelessWidget {
       onPressed: onPressed,
       
       style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
         shadowColor: Colors.transparent,
         elevation: 0.0,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -22,7 +30,7 @@ class NormalButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.white
+          color: textColor
         ),
       ),
     );
