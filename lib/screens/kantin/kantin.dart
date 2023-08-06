@@ -169,6 +169,7 @@ class _KantinPageState extends State<KantinPage> {
               selectedTextStyle: GoogleFonts.inter(
                 color: Colors.white,
               ),
+              selectedColor: GlobalTheme.primaryColor,
             ) ,
           ),
         ],
