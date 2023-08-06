@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:group_button/group_button.dart';
 import 'package:itb_cafeteria_consumer/widgets/custom_menu.dart';
 import 'package:itb_cafeteria_consumer/widgets/normal_button.dart';
@@ -66,7 +67,7 @@ class _KantinPageState extends State<KantinPage> {
                     children: [
                       Text(
                         "Nasi Goreng",
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: GlobalTheme.fontsize2,
                           fontWeight: FontWeight.bold,
                           
@@ -74,14 +75,14 @@ class _KantinPageState extends State<KantinPage> {
                       ),
                       Text(
                         "Deskripsi",
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: GlobalTheme.fontsize3,
                           height: 1.4
                         )
                       ),
                       Text(
                         "Rp 10.000",
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: GlobalTheme.fontsize3,
                           fontWeight: FontWeight.bold,
                           height: 1.4
@@ -153,7 +154,7 @@ class _KantinPageState extends State<KantinPage> {
         children: [
           Text(
             getLocation(widget.locationId),
-            style: TextStyle(
+            style: GoogleFonts.inter(
               fontSize: GlobalTheme.fontsize1,
               fontWeight: FontWeight.bold
             )
@@ -161,9 +162,15 @@ class _KantinPageState extends State<KantinPage> {
           GroupButton<String>(
             buttons: ["Makanan", "Minuman", "Lainnya"],
             onSelected: (text, indext, context) {
-              
+
             },
-          )
+            options: GroupButtonOptions(
+              borderRadius: BorderRadius.circular(GlobalTheme.circular),
+              selectedTextStyle: GoogleFonts.inter(
+                color: Colors.white,
+              ),
+            ) ,
+          ),
         ],
       ),
       child: SingleChildScrollView(

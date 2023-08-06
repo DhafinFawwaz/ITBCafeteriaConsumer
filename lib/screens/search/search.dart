@@ -21,9 +21,9 @@ class _SearchState extends State<Search> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Search",
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: GlobalTheme.fontsize1,
                     fontWeight: FontWeight.bold
                   ),
