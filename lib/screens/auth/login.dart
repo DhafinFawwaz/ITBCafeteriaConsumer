@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itb_cafeteria_consumer/model/auth/login_model.dart';
+import 'package:itb_cafeteria_consumer/utils/GlobalTheme.dart';
+import 'package:itb_cafeteria_consumer/widgets/rounded_button.dart';
 import '../../services/api_service.dart';
 import '../../widgets/normal_button.dart';
 class LoginPage extends StatefulWidget {
@@ -101,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               NormalButton(
                   text: "Login",
+                  backgroundColor: GlobalTheme.primaryColor,
                   onPressed: onSubmit
               ),
               const SizedBox(height: 10),

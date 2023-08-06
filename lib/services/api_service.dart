@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:itb_cafeteria_consumer/model/auth/login_model.dart';
 import 'package:itb_cafeteria_consumer/model/auth/register_model.dart';
+import 'package:itb_cafeteria_consumer/model/profile/profile_edit_model.dart';
 import 'package:itb_cafeteria_consumer/model/profile/profile_model.dart';
 import 'package:itb_cafeteria_consumer/services/shared_service.dart';
 
@@ -60,6 +61,27 @@ class APIService {
     );
 
     return ProfileResponse.fromJson(jsonDecode(response.body));
+  }
+
+
+  static Future<ProfileEditResponse> editUserProfile(ProfileEditRequest model) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}',
+    };
+
+    var uri = Uri.parse(Config.editProfileURL);
+    model.id = loginDetails.data!.id;
+
+    var response = await client.post(
+      uri,
+      headers: requestHeaders,
+      body: jsonEncode(model.toJson()),
+    );
+
+    return ProfileEditResponse.fromJson(jsonDecode(response.body));
   }
 
 }

@@ -5,4 +5,5 @@ class Config {
   static const String loginURL = apiURL + "/login";
   static const String registerURL = apiURL + "/register";
   static const String profileURL = apiURL + "/profile";
+  static const String editProfileURL = apiURL + "/profile/edit";
 }

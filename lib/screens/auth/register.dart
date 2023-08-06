@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/auth/register_model.dart';
 import '../../services/api_service.dart';
+import '../../utils/GlobalTheme.dart';
 import '../../widgets/floating_back_button.dart';
 import '../../widgets/normal_button.dart';
 
@@ -75,8 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
             padding: const EdgeInsets.all(20),
             child: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
                   
                   const SizedBox(height: 60),
@@ -116,6 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 20),
                   NormalButton(
                       text: "Register",
+                      backgroundColor: GlobalTheme.primaryColor,
                       onPressed: onSubmit
                   ),
                   const SizedBox(height: 10),
