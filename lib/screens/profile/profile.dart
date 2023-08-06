@@ -1,6 +1,8 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:itb_cafeteria_consumer/data/StaticData.dart';
 import 'package:itb_cafeteria_consumer/model/profile/profile_model.dart';
 import 'package:itb_cafeteria_consumer/services/api_service.dart';
@@ -20,17 +22,53 @@ class Profile extends StatefulWidget {
 
 
 class _ProfileState extends State<Profile> {
-  late Future<ProfileResponse> futureProfileData;
 
+  File? image;
+
+  void getUserProfile() async {
+    StaticData.profileData = await APIService.getUserProfile();
+  }
   @override
   void initState() {
     super.initState();
-    refreshPage();
+    if(StaticData.profileData.message == "")
+    {
+      setState(() {
+        getUserProfile();
+      });
+    }
   }
 
-  void refreshPage() async {
-    StaticData.profileData = await APIService.getUserProfile();
+  void onImageEdit() async {
+    print("Image Edit");
 
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(image == null) return;
+
+      APIService.editUserImageProfile(image.path).then((response) => {
+        setState(() {
+          StaticData.profileData.data.image = response;
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Profile edited successfully"),
+            ));
+        }),
+      });
+
+    } catch(e) {
+      print('Failed to pick image: $e');
+    }
+    
+
+
+    
+
+  }
+
+
+  void onEditSuccess() {
+    
+    Navigator.pop(context);
   }
 
   void NavigateToProfileEdit() {
@@ -74,15 +112,20 @@ class _ProfileState extends State<Profile> {
                   
                     Row(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Image.network(
-                            data.image,
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
+
+                        InkWell(
+                          onTap: onImageEdit,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0),
+                            child: Image.network(
+                              data.image,
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            ),
                           ),
                         ),
+                        
                         
                         const SizedBox(width: GlobalTheme.padding1),
                         Column(

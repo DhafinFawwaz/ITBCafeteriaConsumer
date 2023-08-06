@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:itb_cafeteria_consumer/model/auth/login_model.dart';
 import 'package:itb_cafeteria_consumer/model/auth/register_model.dart';
@@ -82,6 +83,31 @@ class APIService {
     );
 
     return ProfileEditResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<String> editUserImageProfile(String path) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}',
+    };
+
+    var uri = Uri.parse('${Config.editProfileImageURL}?id=${loginDetails.data!.id}');
+
+
+    http.MultipartRequest request = http.MultipartRequest("POST", uri);
+
+    http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        'image', path);
+
+    request.files.add(multipartFile);
+    request.headers.addAll(requestHeaders);
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    return jsonDecode(response.body)["data"]["image"];
   }
 
 }

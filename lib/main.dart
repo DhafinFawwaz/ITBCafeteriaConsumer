@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:itb_cafeteria_consumer/utils/GlobalTheme.dart';
+import 'data/StaticData.dart';
 import 'screens/kantin/kantin.dart';
 import 'screens/nav/nav.dart';
 import 'screens/auth/login.dart';
 import 'screens/auth/register.dart';
+import 'services/api_service.dart';
 import 'services/shared_service.dart';
 
 Widget _defaultHome = const LoginPage();
@@ -15,6 +17,7 @@ void main() async {
   if(_result) {
     _defaultHome = const NavPage();
   }
+  
 
   runApp(const MyApp());
 }

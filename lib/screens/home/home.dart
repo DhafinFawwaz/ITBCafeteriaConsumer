@@ -55,36 +55,47 @@ class _HomeState extends State<Home> {
                 ),
 
                 const SizedBox(height: GlobalTheme.padding1),
-              
-                RoundedButton(
-                  text: "Kantin GKUB",
-                  color: GlobalTheme.slate700,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(GlobalTheme.circular),
-                    topRight: Radius.circular(GlobalTheme.circular)
-                  ), 
-                  onPressed: () {
-                    loadKantin(1);
-                  }
+
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RoundedButton(
+                    text: "Kantin GKUB",
+                    color: GlobalTheme.slate700,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(GlobalTheme.circular),
+                      topRight: Radius.circular(GlobalTheme.circular)
+                    ), 
+                    onPressed: () {
+                      loadKantin(1);
+                    }
+                  ),
                 ),
-                RoundedButton(
-                  text: "Kantin GKUT",
-                  color: GlobalTheme.slate700,
-                  borderRadius: BorderRadius.zero, 
-                  onPressed: () {
-                    loadKantin(2);
-                  }
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RoundedButton(
+                    text: "Kantin GKUT",
+                    color: GlobalTheme.slate700,
+                    borderRadius: BorderRadius.zero, 
+                    onPressed: () {
+                      loadKantin(2);
+                    }
+                  )
+                
                 ),
-                RoundedButton(
-                  text: "Kantin Depan",
-                  color: GlobalTheme.slate700,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(GlobalTheme.circular),
-                    bottomRight: Radius.circular(GlobalTheme.circular)
-                  ), 
-                  onPressed: () {
-                    loadKantin(3);
-                  }
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RoundedButton(
+                    text: "Kantin Depan",
+                    color: GlobalTheme.slate700,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(GlobalTheme.circular),
+                      bottomRight: Radius.circular(GlobalTheme.circular)
+                    ), 
+                    onPressed: () {
+                      loadKantin(3);
+                    }
+                  )
+                
                 ),
               
                 SizedBox(height: GlobalTheme.padding1),
