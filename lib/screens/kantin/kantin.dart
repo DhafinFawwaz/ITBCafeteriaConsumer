@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 import 'package:itb_cafeteria_consumer/widgets/custom_menu.dart';
 import 'package:itb_cafeteria_consumer/widgets/normal_button.dart';
 
 import '../../utils/GlobalTheme.dart';
+import '../../widgets/rounded_button.dart';
 
 class KantinPage extends StatefulWidget {
   const KantinPage({super.key, required this.locationId});
@@ -22,12 +25,26 @@ class _KantinPageState extends State<KantinPage> {
     else return "Kantin Depan";
   }
 
+  void onSeeMore() {
+
+  }
+
+  final Row dashedLines = Row(
+    children: List.generate(80, (index) => Expanded(
+      child: Container(
+        color: index%2==0?Colors.transparent :Colors.grey,
+        height: 3,
+      ))
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
 
+    
     Widget buildFood() {
       return Padding(
-        padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+        padding: EdgeInsets.only(top: GlobalTheme.padding1),
         child: Container(
           height: 90,
           color: Colors.transparent,
@@ -75,7 +92,11 @@ class _KantinPageState extends State<KantinPage> {
                 ),
                 
                 Spacer(),
-                NormalButton(text: "Tambah", onPressed: () {
+                RoundedButton(
+                  text: "Tambah", 
+                  borderRadius: BorderRadius.circular(20),
+                  color: GlobalTheme.primaryColor,
+                  onPressed: () {
                   print("Tambah");
                 }),
                 SizedBox(width: GlobalTheme.padding1)
@@ -86,6 +107,45 @@ class _KantinPageState extends State<KantinPage> {
         ),
       );
     }
+
+    Widget buildSection() {
+      return Padding(
+        padding: EdgeInsets.only(
+          top: GlobalTheme.padding1,
+          left: GlobalTheme.padding1,
+          right: GlobalTheme.padding1,
+          bottom: 0,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            dashedLines,
+            
+            SizedBox(height: GlobalTheme.padding2),
+
+            Text(
+              "Toko A",
+              style: TextStyle(
+                fontSize: GlobalTheme.fontsize2,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            buildFood(),
+            buildFood(),
+            buildFood(),
+
+            SizedBox(height: GlobalTheme.padding2),
+            ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: double.infinity),
+              child: RoundedButton(text: "See More", borderRadius: BorderRadius.circular(20), color: GlobalTheme.primaryColor, onPressed: onSeeMore),
+            ),
+            
+          ],
+        )
+      );
+    }
+
 
     return CustomMenu(
       hoveringChild: Column(
@@ -109,14 +169,9 @@ class _KantinPageState extends State<KantinPage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            buildFood(),
-            buildFood(),
-            buildFood(),
-            buildFood(),
-            buildFood(),
-            buildFood(),
-            buildFood(),
-            buildFood(),
+            buildSection(),
+            buildSection(),
+            buildSection(),
           ],
         ),
       ),

@@ -16,5 +16,5 @@ class GlobalTheme {
   static const fontsize3 = 15.0;
   static const circular = 15.0;
 
-  static const Color primaryColor = Color(0xF87328FF);
+  static const Color primaryColor = Color(0xFFF87328);
 }
