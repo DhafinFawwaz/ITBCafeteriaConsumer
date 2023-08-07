@@ -125,7 +125,7 @@ class _KantinPageState extends State<KantinPage> {
           child: Row(
             children: [
               Text(
-                "  5 Item",
+                "  ",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   color: Colors.white,
@@ -134,7 +134,7 @@ class _KantinPageState extends State<KantinPage> {
               ),
               Spacer(),
               Text(
-                "Rp 50.000   ",
+                "   ",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   color: Colors.white,

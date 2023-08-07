@@ -13,4 +13,5 @@ class Config {
   static const String addOrderByIdURL = apiURL + "/order/addById";
   static const String reduceOrderURL = apiURL + "/order/reduce";
   static const String getAllCart= apiURL + "/cart";
+  static const String payAllCart= apiURL + "/cart/payall";
 }

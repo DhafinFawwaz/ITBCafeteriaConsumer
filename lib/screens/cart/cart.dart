@@ -9,6 +9,7 @@ import 'package:itb_cafeteria_consumer/widgets/custom_menu.dart';
 
 import '../../utils/GlobalTheme.dart';
 import '../../widgets/rounded_button.dart';
+import '../kantin/detail.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -74,8 +75,10 @@ class _CartState extends State<Cart> {
     ),
   );
 
-  void NavigateToCart() {
-
+  void onPay() async {
+    print("pay");
+    await APIService.payAllCart();
+    getProducts();
   }
 
   double getTotalPrice() {
@@ -101,12 +104,31 @@ class _CartState extends State<Cart> {
     return '  1 item';
   }
 
+  void onSeeDetails(String title, String description, String price, String imageLink, int shopId, int productId, int orderId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => DetailPage(
+          title: title, 
+          description: description, 
+          price: price, 
+          imageLink: imageLink, 
+          shopId: shopId, 
+          productId: productId,
+          onTambah: () {onTambah(orderId);}
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
   
   @override
   Widget build(BuildContext context) {
 
     Widget CartButon = ElevatedButton(
-      onPressed: NavigateToCart,
+      onPressed: onPay,
       
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
@@ -147,16 +169,14 @@ class _CartState extends State<Cart> {
       ),
     );
 
-    Widget buildFood(String title, int quantity, String price, String imageLink, int shopId, int productId, int orderId) {
+    Widget buildFood(String title, String description, int quantity, String price, String imageLink, int shopId, int productId, int orderId) {
       return Padding(
         padding: EdgeInsets.only(top: GlobalTheme.padding1),
         child: Container(
           height: 90,
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {
-              print("tapped");
-            },
+            onTap: () {onSeeDetails(title, description, price, imageLink, shopId, productId, orderId);},
             child: Row(
               children: [
 
@@ -246,12 +266,13 @@ class _CartState extends State<Cart> {
       var productWidgets = List.generate(order.length, (index) => 
         buildFood(
           order[index].productName, 
+          order[index].productName, 
           order[index].quantity, 
           order[index].productPrice.toString(), 
           order[index].productImage,
           shopId, 
           order[index].productId,
-          order[index].orderItemId,
+          order[index].orderItemId
         ),
       );
       

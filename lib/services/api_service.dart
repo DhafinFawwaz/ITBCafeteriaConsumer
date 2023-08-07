@@ -200,5 +200,20 @@ class APIService {
     return CartResponse.fromJson(jsonDecode(response.body));
   }
 
+  static Future payAllCart() async {
+    var loginDetails = await SharedService.loginDetails();
 
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}'
+    };
+    var uri = Uri.parse('${Config.payAllCart}?user_id=${loginDetails.data!.id}');
+
+    var response = await client.post(
+      uri,
+      headers: requestHeaders,
+    );
+
+    print("Payment done successfully");
+  }
 }
