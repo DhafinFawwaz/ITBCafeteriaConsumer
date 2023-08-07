@@ -26,8 +26,8 @@ class Data {
     required this.username,
     required this.email,
     required this.telephone,
-    required this.shopImage,
-    required this.shopDescription,
+    required this.image,
+    required this.description,
     required this.productArray,
   });
   late final int shopId;
@@ -35,9 +35,9 @@ class Data {
   late final String username;
   late final String email;
   late final String telephone;
-  late final String shopImage;
-  late final String shopDescription;
-  late final List<ProductArray> productArray;
+  late final String image;
+  late final String description;
+  late final List<Product> productArray;
   
   Data.fromJson(Map<String, dynamic> json){
     shopId = json['shop_id'];
@@ -45,9 +45,9 @@ class Data {
     username = json['username'];
     email = json['email'];
     telephone = json['telephone'];
-    shopImage = json['shop_image'];
-    shopDescription = json['shop_description'];
-    productArray = List.from(json['product_array']).map((e)=>ProductArray.fromJson(e)).toList();
+    image = json['shop_image'];
+    description = json['shop_description'];
+    productArray = List.from(json['product_array']).map((e)=>Product.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -57,15 +57,15 @@ class Data {
     _data['username'] = username;
     _data['email'] = email;
     _data['telephone'] = telephone;
-    _data['shop_image'] = shopImage;
-    _data['shop_description'] = shopDescription;
+    _data['shop_image'] = image;
+    _data['shop_description'] = description;
     _data['product_array'] = productArray.map((e)=>e.toJson()).toList();
     return _data;
   }
 }
 
-class ProductArray {
-  ProductArray({
+class Product {
+  Product({
     required this.name,
     required this.image,
     required this.price,
@@ -82,7 +82,7 @@ class ProductArray {
   late final int categoryId;
   late final String description;
   
-  ProductArray.fromJson(Map<String, dynamic> json){
+  Product.fromJson(Map<String, dynamic> json){
     name = json['name'];
     image = json['image'];
     price = json['price'];

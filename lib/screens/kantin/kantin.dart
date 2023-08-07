@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:group_button/group_button.dart';
+import 'package:itb_cafeteria_consumer/data/StaticData.dart';
 import 'package:itb_cafeteria_consumer/model/product/suggestion_model.dart';
 import 'package:itb_cafeteria_consumer/services/api_service.dart';
 import 'package:itb_cafeteria_consumer/widgets/custom_menu.dart';
@@ -21,24 +22,20 @@ class KantinPage extends StatefulWidget {
 
 class _KantinPageState extends State<KantinPage> {
 
-  String getLocation(int locationId) {
-    if(locationId == 1) return "Kantin GKUB";
-    else if(locationId == 2) return "Kantin GKUT";
-    else if(locationId == 3) return "Kantin Depan";
-    else return "Kantin Depan";
-  }
-
   SuggestionResponse? response;
   int categoryId = 1;
 
   @override
   void initState() {
     super.initState();
+    print("getting data");
     getProducts();
   }
 
   void getProducts() async {
+    print("getting data");
     response = await APIService.getProductSuggestion(widget.locationId, categoryId);
+    print(response!.data.toString());
     setState(() {});
   }
 
@@ -64,7 +61,7 @@ class _KantinPageState extends State<KantinPage> {
   Widget build(BuildContext context) {
 
     
-    Widget buildFood() {
+    Widget buildFood(String title, String description, String price, String imageLink) {
       return Padding(
         padding: EdgeInsets.only(top: GlobalTheme.padding1),
         child: Container(
@@ -76,40 +73,45 @@ class _KantinPageState extends State<KantinPage> {
             },
             child: Row(
               children: [
-                Container(
-                  height: 90,
+
+                Image.network(
+                  imageLink,
+                  fit: BoxFit.cover,
                   width: 90,
-                  color: GlobalTheme.slate200,
+                  height: 90,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 20, top: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Nasi Goreng",
-                        style: GoogleFonts.inter(
-                          fontSize: GlobalTheme.fontsize2,
-                          fontWeight: FontWeight.bold,
-                          
-                        )
-                      ),
-                      Text(
-                        "Deskripsi",
-                        style: GoogleFonts.inter(
-                          fontSize: GlobalTheme.fontsize3,
-                          height: 1.4
-                        )
-                      ),
-                      Text(
-                        "Rp 10.000",
-                        style: GoogleFonts.inter(
-                          fontSize: GlobalTheme.fontsize3,
-                          fontWeight: FontWeight.bold,
-                          height: 1.4
-                        )
-                      ),
-                    ],
+                  padding: EdgeInsets.only(left: 20),
+                  child: Container(
+                    width: 120,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: GoogleFonts.inter(
+                            fontSize: GlobalTheme.fontsize2,
+                            fontWeight: FontWeight.bold,
+                            
+                          )
+                        ),
+                        Text(
+                          description,
+                          style: GoogleFonts.inter(
+                            fontSize: GlobalTheme.fontsize4,
+                            height: 1.4
+                          )
+                        ),
+                        Text(
+                          "Rp $price",
+                          style: GoogleFonts.inter(
+                            fontSize: GlobalTheme.fontsize3,
+                            fontWeight: FontWeight.bold,
+                            height: 1.4
+                          )
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 
@@ -130,7 +132,12 @@ class _KantinPageState extends State<KantinPage> {
       );
     }
 
-    Widget buildSection() {
+    Widget buildSection(String title, String description, String imageLink, List<Product> product_array) {
+      
+      var productWidgets = List.generate(product_array.length, (index) => 
+        buildFood(product_array[index].name, product_array[index].description, product_array[index].price.toString(), product_array[index].image),
+      );
+      
       return Padding(
         padding: EdgeInsets.only(
           top: GlobalTheme.padding1,
@@ -147,16 +154,15 @@ class _KantinPageState extends State<KantinPage> {
             SizedBox(height: GlobalTheme.padding2),
 
             Text(
-              "Toko A",
+              title,
               style: TextStyle(
                 fontSize: GlobalTheme.fontsize2,
                 fontWeight: FontWeight.bold
               ),
             ),
-            buildFood(),
-            buildFood(),
-            buildFood(),
-
+            
+            ...productWidgets,
+            
             SizedBox(height: GlobalTheme.padding2),
             ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
@@ -168,13 +174,12 @@ class _KantinPageState extends State<KantinPage> {
       );
     }
 
-
     return CustomMenu(
       hoveringChild: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            getLocation(widget.locationId),
+            StaticData.getLocationById(widget.locationId),
             style: GoogleFonts.inter(
               fontSize: GlobalTheme.fontsize1,
               fontWeight: FontWeight.bold
@@ -197,18 +202,16 @@ class _KantinPageState extends State<KantinPage> {
       ),
       child: SingleChildScrollView(
         child: (response?.message == "" || response?.message == null) ? 
-        
-        ListView(
-          children: [
-
-            buildSection(),
-            buildSection(),
-            buildSection(),
-          ],
-        )
-        :
         const Center(
           child: CircularProgressIndicator(),
+        )
+        :
+        Column(
+          children: List.generate(response!.data.length, (index) => 
+            buildSection(response!.data[index].username, response!.data[index].description, 
+              response!.data[index].image, response!.data[index].productArray
+            )
+          ),
         )
       ),
     );

@@ -12,4 +12,19 @@ class StaticData {
     createdAt: DateTime.now(),
     modifiedAt: DateTime.now(),
   ));
+
+  static getLocationById(int id) {
+    if(id == 0) return "GKUB";
+    return locationById[id-1];
+  }
+
+  static const locationById = [
+    'GKUB', 
+    'GKUT', 
+    'Depan',
+    'Borju',
+    'SBM',
+    'CRCS', 
+    'Saraga'
+  ];
 }

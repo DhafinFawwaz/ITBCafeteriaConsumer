@@ -121,7 +121,6 @@ class APIService {
 
     var url = Uri.parse('${Config.productSuggestionURL}?location_id=$locationId&category_id=$categoryId');
     
-    print(url);
     var response = await client.get(
       url,
       headers: requestHeaders,
