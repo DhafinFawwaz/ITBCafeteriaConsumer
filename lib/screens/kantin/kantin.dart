@@ -9,6 +9,7 @@ import 'package:itb_cafeteria_consumer/widgets/custom_menu.dart';
 
 import '../../utils/GlobalTheme.dart';
 import '../../widgets/rounded_button.dart';
+import 'detail.dart';
 
 class KantinPage extends StatefulWidget {
   const KantinPage({super.key, required this.locationId});
@@ -78,7 +79,26 @@ class _KantinPageState extends State<KantinPage> {
   );
 
   void NavigateToCart() {
+    
+  }
 
+  void onSeeDetails(String title, String description, String price, String imageLink, int shopId, int productId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => DetailPage(
+          title: title, 
+          description: description, 
+          price: price, 
+          imageLink: imageLink, 
+          shopId: shopId, 
+          productId: productId,
+          onTambah: () {onTambah(shopId, productId);}
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
   }
 
   
@@ -135,7 +155,7 @@ class _KantinPageState extends State<KantinPage> {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              print("tapped");
+              onSeeDetails(title, description, price, imageLink, shopId, productId);
             },
             child: Row(
               children: [
