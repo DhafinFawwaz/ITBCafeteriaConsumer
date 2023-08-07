@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:itb_cafeteria_consumer/model/auth/login_model.dart';
 import 'package:itb_cafeteria_consumer/model/auth/register_model.dart';
+import 'package:itb_cafeteria_consumer/model/cart/cart_model.dart';
+import 'package:itb_cafeteria_consumer/model/order/order_model.dart';
 import 'package:itb_cafeteria_consumer/model/product/suggestion_model.dart';
 import 'package:itb_cafeteria_consumer/model/profile/profile_edit_model.dart';
 import 'package:itb_cafeteria_consumer/model/profile/profile_model.dart';
@@ -128,4 +130,75 @@ class APIService {
 
     return SuggestionResponse.fromJson(jsonDecode(response.body));
   }
+
+
+  static Future<OrderResponse> addOrder(OrderRequest model) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    model.userId = loginDetails!.data!.id;
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}'
+    };
+    var uri = Uri.parse(Config.addOrderURL);
+
+    var response = await client.post(
+      uri,
+      headers: requestHeaders,
+      body: jsonEncode(model.toJson()),
+    );
+
+    return OrderResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future addOrderById(int orderId) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}'
+    };
+    var uri = Uri.parse('${Config.addOrderByIdURL}?product_id=$orderId');
+
+    var response = await client.post(
+      uri,
+      headers: requestHeaders,
+    );
+  }
+
+  static Future reduceOrder(int orderId) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}'
+    };
+    var uri = Uri.parse('${Config.reduceOrderURL}?product_id=$orderId');
+
+    var response = await client.post(
+      uri,
+      headers: requestHeaders,
+    );
+  }
+
+  static Future<CartResponse> getAllCart() async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}',
+    };
+
+    var url = Uri.parse('${Config.getAllCart}?user_id=${loginDetails.data!.id}');
+    
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+
+    return CartResponse.fromJson(jsonDecode(response.body));
+  }
+
+
 }

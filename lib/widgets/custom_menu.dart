@@ -4,10 +4,15 @@ import 'package:itb_cafeteria_consumer/utils/GlobalTheme.dart';
 import 'floating_back_button.dart';
 
 class CustomMenu extends StatelessWidget {
-  const CustomMenu({super.key, required this.hoveringChild, required this.child});
+  const CustomMenu({super.key, required this.hoveringChild, required this.child, this.topHoverHeight = 180, this.bottomHoverHeight = 80, this.hasBackButton = true});
+
+  final double topHoverHeight;
+  final double bottomHoverHeight;
 
   final Widget hoveringChild;
   final Widget child;
+
+  final bool hasBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +25,18 @@ class CustomMenu extends StatelessWidget {
             child: hoveringChild,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 180, bottom: 80),
+            padding: EdgeInsets.only(top: topHoverHeight, bottom: bottomHoverHeight),
             child: child,
           ),
+          hasBackButton ? 
           Positioned(
             top: 20,
             left: 10,
             child: FloatingBackButton(Colors.black),
-          ),
+          )
+          :
+          Container()
+          ,
         ],
       )
     );

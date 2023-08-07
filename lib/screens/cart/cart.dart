@@ -2,25 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:group_button/group_button.dart';
 import 'package:itb_cafeteria_consumer/data/StaticData.dart';
+import 'package:itb_cafeteria_consumer/model/cart/cart_model.dart';
 import 'package:itb_cafeteria_consumer/model/order/order_model.dart';
-import 'package:itb_cafeteria_consumer/model/product/suggestion_model.dart';
 import 'package:itb_cafeteria_consumer/services/api_service.dart';
 import 'package:itb_cafeteria_consumer/widgets/custom_menu.dart';
 
 import '../../utils/GlobalTheme.dart';
 import '../../widgets/rounded_button.dart';
 
-class KantinPage extends StatefulWidget {
-  const KantinPage({super.key, required this.locationId});
+class Cart extends StatefulWidget {
+  const Cart({super.key});
 
-  final int locationId;
   @override
-  State<KantinPage> createState() => _KantinPageState();
+  State<Cart> createState() => _CartState();
 }
 
-class _KantinPageState extends State<KantinPage> {
+class _CartState extends State<Cart> {
 
-  SuggestionResponse? response;
+  CartResponse? response;
   int categoryId = 1;
 
   @override
@@ -30,17 +29,13 @@ class _KantinPageState extends State<KantinPage> {
     getProducts();
   }
 
-  void onTambah(int shopId, int productId) async {
-    OrderRequest request = OrderRequest(userId: 0, shopId: shopId, productId: productId);
-    await APIService.addOrder(request).then((response) => {
-        if(response.message != "success") {
-          onAddFailed(response.message)
-        }
-        else {
-          onAddsuccess()
-        }
-      }
-    );
+  void onTambah(int orderId) async {
+    await APIService.addOrderById(orderId);
+    getProducts();
+  }
+  void onKurang(int orderId) async {
+    await APIService.reduceOrder(orderId);
+    getProducts();
   }
 
   void onAddFailed(String message) {
@@ -52,10 +47,12 @@ class _KantinPageState extends State<KantinPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Added to cart"),
     ));
+
+    getProducts();
   }
 
   void getProducts() async {
-    response = await APIService.getProductSuggestion(widget.locationId, categoryId);
+    response = await APIService.getAllCart();
     setState(() {});
   }
 
@@ -64,8 +61,8 @@ class _KantinPageState extends State<KantinPage> {
     response?.message = "";
     getProducts();
   }
-  void onSeeMore(int shopId) {
-    
+  void onSeeMore() {
+
   }
 
   final Row dashedLines = Row(
@@ -81,6 +78,29 @@ class _KantinPageState extends State<KantinPage> {
 
   }
 
+  double getTotalPrice() {
+    double price = 0;
+    if(response == null) return price;
+    for(int i = 0; i < response!.data.length; i++) {
+      price += response!.data[i].totalPrice;
+    }
+    return price;
+  }
+  int getTotalItems() {
+    int items = 0;
+    if(response == null) return items;
+    for(int i = 0; i < response!.data.length; i++) {
+      int total = response!.data[i].orderItem.fold(0, (sum, item) => sum + item.quantity);
+      items += total;
+    }
+    return items;
+  }
+  String getTotalItemsString() {
+    int n = getTotalItems();
+    if(n > 1) return '  $n items';
+    return '  1 item';
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -90,7 +110,7 @@ class _KantinPageState extends State<KantinPage> {
       
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
-        backgroundColor: GlobalTheme.primaryColor,
+        backgroundColor: GlobalTheme.secondaryColor,
         elevation: 0.0,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         shape: RoundedRectangleBorder(
@@ -105,7 +125,7 @@ class _KantinPageState extends State<KantinPage> {
           child: Row(
             children: [
               Text(
-                "  5 Item",
+                '  ${getTotalItemsString()}',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   color: Colors.white,
@@ -114,7 +134,7 @@ class _KantinPageState extends State<KantinPage> {
               ),
               Spacer(),
               Text(
-                "Rp 50.000   ",
+                "Rp ${getTotalPrice()}   ",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   color: Colors.white,
@@ -127,7 +147,7 @@ class _KantinPageState extends State<KantinPage> {
       ),
     );
 
-    Widget buildFood(String title, String description, String price, String imageLink, int shopId, int productId) {
+    Widget buildFood(String title, int quantity, String price, String imageLink, int shopId, int productId, int orderId) {
       return Padding(
         padding: EdgeInsets.only(top: GlobalTheme.padding1),
         child: Container(
@@ -162,7 +182,7 @@ class _KantinPageState extends State<KantinPage> {
                           )
                         ),
                         Text(
-                          description,
+                          '$quantity items',
                           style: GoogleFonts.inter(
                             fontSize: GlobalTheme.fontsize4,
                             height: 1.4
@@ -182,11 +202,35 @@ class _KantinPageState extends State<KantinPage> {
                 ),
                 
                 Spacer(),
-                RoundedButton(
-                  text: "Tambah", 
-                  borderRadius: BorderRadius.circular(20),
+
+
+                FloatingActionButton(
+                  child: Text(
+                    "-",
+                    style: TextStyle(
+                      fontSize: GlobalTheme.fontsize1,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                    )
+                  ),
+                  mini: true,
+                  elevation: 0,
                   backgroundColor: GlobalTheme.primaryColor,
-                  onPressed: () {onTambah(shopId, productId);}
+                  onPressed: () {onKurang(orderId);}
+                ),
+                FloatingActionButton(
+                  child: Text(
+                    "+",
+                    style: TextStyle(
+                      fontSize: GlobalTheme.fontsize1,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                    )
+                  ),
+                  mini: true,
+                  elevation: 0,
+                  backgroundColor: GlobalTheme.primaryColor,
+                  onPressed: () {onTambah(orderId);}
                 ),
                 SizedBox(width: GlobalTheme.padding1)
 
@@ -197,12 +241,17 @@ class _KantinPageState extends State<KantinPage> {
       );
     }
 
-    Widget buildSection(String title, String description, String imageLink, List<Product> product_array, int shopId) {
+    Widget buildSection(String title, String imageLink, List<OrderItem> order, int shopId) {
       
-      var productWidgets = List.generate(product_array.length, (index) => 
-        buildFood(product_array[index].name, product_array[index].description, 
-          product_array[index].price.toString(), product_array[index].image, 
-          shopId, product_array[index].productId
+      var productWidgets = List.generate(order.length, (index) => 
+        buildFood(
+          order[index].productName, 
+          order[index].quantity, 
+          order[index].productPrice.toString(), 
+          order[index].productImage,
+          shopId, 
+          order[index].productId,
+          order[index].orderItemId,
         ),
       );
       
@@ -221,31 +270,27 @@ class _KantinPageState extends State<KantinPage> {
             
             SizedBox(height: GlobalTheme.padding2),
 
+
+
             Row(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(imageLink),
-                  radius: 14,
-                ),
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(imageLink),
+                    radius: 14,
+                  ),
                 SizedBox(width: GlobalTheme.padding2),
-                Text(
+                  Text(
                   title,
                   style: TextStyle(
                     fontSize: GlobalTheme.fontsize2,
                     fontWeight: FontWeight.bold
                   ),
                 ),
-              ],
+              ]
             ),
-
-                  
+            
             ...productWidgets,
             
-            SizedBox(height: GlobalTheme.padding2),
-            ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: double.infinity),
-              child: RoundedButton(text: "See More", borderRadius: BorderRadius.circular(20), backgroundColor: GlobalTheme.primaryColor, onPressed: () {onSeeMore(shopId);}),
-            ),
             
           ],
         )
@@ -255,33 +300,21 @@ class _KantinPageState extends State<KantinPage> {
     
 
     List<Widget> getList() => List.generate(response!.data.length, (index) => 
-    buildSection(response!.data[index].username, response!.data[index].description, 
-      response!.data[index].image, response!.data[index].productArray,
+    buildSection(response!.data[index].username, 
+      response!.data[index].image, response!.data[index].orderItem,
       response!.data[index].shopId
     ));
     return CustomMenu(
+      hasBackButton: false,
       hoveringChild: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            StaticData.getLocationById(widget.locationId),
+            "Cart",
             style: GoogleFonts.inter(
               fontSize: GlobalTheme.fontsize1,
               fontWeight: FontWeight.bold
             )
-          ),
-          GroupButton<String>(
-            buttons: ["Makanan", "Minuman", "Lainnya"],
-            onSelected: (text, index, context) {
-              onCategorySelected(index);
-            },
-            options: GroupButtonOptions(
-              borderRadius: BorderRadius.circular(GlobalTheme.circular),
-              selectedTextStyle: GoogleFonts.inter(
-                color: Colors.white,
-              ),
-              selectedColor: GlobalTheme.primaryColor,
-            ) ,
           ),
           Spacer(),
 
@@ -303,6 +336,7 @@ class _KantinPageState extends State<KantinPage> {
         ),
       ),
       bottomHoverHeight: 80,
+      topHoverHeight: 140,
     );
   }
 }

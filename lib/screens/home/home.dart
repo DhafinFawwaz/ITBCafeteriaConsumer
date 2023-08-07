@@ -23,6 +23,21 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  Widget dashedLines = Container(
+    color: GlobalTheme.slate200,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: List.generate(80, (index) => Expanded(
+          child: Container(
+            color: index%2==0?Colors.transparent :GlobalTheme.slate300,
+            height: 3,
+          ))
+        ),
+      ),
+    ),
+  );
   
   @override
   Widget build(BuildContext context) {
@@ -35,7 +50,7 @@ class _HomeState extends State<Home> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              
+                
                 Text(
                   "Kantin",
                   style: GoogleFonts.inter(
@@ -51,52 +66,114 @@ class _HomeState extends State<Home> {
                   child: Container(
                     height: 400.0,
                     width: 400.0,
-                    color: GlobalTheme.slate200,
                     child: Image.asset(
                       "assets/images/mapITB.png",
                       fit: BoxFit.contain,),
                   ),
                 ),
-
+            
                 const SizedBox(height: GlobalTheme.padding1),
-
+            
                 ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: RoundedButton(
                     text: "Kantin GKUB",
-                    color: GlobalTheme.slate700,
+                    backgroundColor: GlobalTheme.slate200,
+                    textColor: GlobalTheme.slate700,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(GlobalTheme.circular),
                       topRight: Radius.circular(GlobalTheme.circular)
                     ), 
+                    height: 30,
                     onPressed: () {
                       loadKantin(1);
                     }
                   ),
                 ),
+                dashedLines,
                 ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: RoundedButton(
                     text: "Kantin GKUT",
-                    color: GlobalTheme.slate700,
+                    backgroundColor: GlobalTheme.slate200,
+                    textColor: GlobalTheme.slate700,
                     borderRadius: BorderRadius.zero, 
+                    height: 30,
                     onPressed: () {
                       loadKantin(2);
                     }
                   )
-                
                 ),
+                dashedLines,
                 ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: RoundedButton(
                     text: "Kantin Depan",
-                    color: GlobalTheme.slate700,
+                    backgroundColor: GlobalTheme.slate200,
+                    textColor: GlobalTheme.slate700,
+                    borderRadius: BorderRadius.zero, 
+                    height: 30,
+                    onPressed: () {
+                      loadKantin(3);
+                    }
+                  )
+                ),
+                dashedLines,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RoundedButton(
+                    text: "Kantin Borju",
+                    backgroundColor: GlobalTheme.slate200,
+                    textColor: GlobalTheme.slate700,
+                    borderRadius: BorderRadius.zero, 
+                    height: 30,
+                    onPressed: () {
+                      loadKantin(4);
+                    }
+                  )
+                ),
+                dashedLines,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RoundedButton(
+                    text: "Kantin SBM",
+                    backgroundColor: GlobalTheme.slate200,
+                    textColor: GlobalTheme.slate700,
+                    borderRadius: BorderRadius.zero, 
+                    height: 30,
+                    onPressed: () {
+                      loadKantin(5);
+                    }
+                  )
+                ),
+                dashedLines,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RoundedButton(
+                    text: "Kantin CRCS",
+                    backgroundColor: GlobalTheme.slate200,
+                    textColor: GlobalTheme.slate700,
+                    borderRadius: BorderRadius.zero, 
+                    height: 30,
+                    onPressed: () {
+                      loadKantin(6);
+                    }
+                  )
+                ),
+                dashedLines,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RoundedButton(
+                    text: "Kantin Saraga",
+                    backgroundColor: GlobalTheme.slate200,
+                    textColor: GlobalTheme.slate700,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(GlobalTheme.circular),
                       bottomRight: Radius.circular(GlobalTheme.circular)
                     ), 
+                    height: 30,
                     onPressed: () {
-                      loadKantin(3);
+                      loadKantin(7);
                     }
                   )
                 
@@ -111,7 +188,7 @@ class _HomeState extends State<Home> {
                     fontWeight: FontWeight.bold
                   ),
                 ),
-
+            
                 
               
               ],

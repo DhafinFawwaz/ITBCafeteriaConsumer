@@ -11,7 +11,6 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      Image(image: AssetImage("assets/images/decorator.png")),
       Padding(
         padding: EdgeInsets.only(left: 28, top: 40),
         child: Row(

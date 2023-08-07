@@ -90,7 +90,6 @@ class _ProfileState extends State<Profile> {
         data.image = 'https://i.cbc.ca/1.5359228.1577206958!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_620/smudge-the-viral-cat.jpg';
       }
       return Container(
-        color: GlobalTheme.slate100,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

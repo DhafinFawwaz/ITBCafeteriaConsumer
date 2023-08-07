@@ -18,4 +18,7 @@ class GlobalTheme {
   static const circular = 15.0;
 
   static const Color primaryColor = Color(0xFFF87328);
+  static const Color secondaryColor = Color(0xFF03C03C);
+
+  static const topBg = Image(image: AssetImage("assets/images/decorator.png"));
 }
