@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:group_button/group_button.dart';
+import 'package:itb_cafeteria_consumer/model/product/suggestion_model.dart';
+import 'package:itb_cafeteria_consumer/services/api_service.dart';
 import 'package:itb_cafeteria_consumer/widgets/custom_menu.dart';
 import 'package:itb_cafeteria_consumer/widgets/normal_button.dart';
 
@@ -26,6 +28,25 @@ class _KantinPageState extends State<KantinPage> {
     else return "Kantin Depan";
   }
 
+  SuggestionResponse? response;
+  int categoryId = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    getProducts();
+  }
+
+  void getProducts() async {
+    response = await APIService.getProductSuggestion(widget.locationId, categoryId);
+    setState(() {});
+  }
+
+  void onCategorySelected(index) {
+    categoryId = index+1;
+    response?.message = "";
+    getProducts();
+  }
   void onSeeMore() {
 
   }
@@ -161,8 +182,8 @@ class _KantinPageState extends State<KantinPage> {
           ),
           GroupButton<String>(
             buttons: ["Makanan", "Minuman", "Lainnya"],
-            onSelected: (text, indext, context) {
-
+            onSelected: (text, index, context) {
+              onCategorySelected(index);
             },
             options: GroupButtonOptions(
               borderRadius: BorderRadius.circular(GlobalTheme.circular),
@@ -175,13 +196,20 @@ class _KantinPageState extends State<KantinPage> {
         ],
       ),
       child: SingleChildScrollView(
-        child: Column(
+        child: (response?.message == "" || response?.message == null) ? 
+        
+        ListView(
           children: [
+
             buildSection(),
             buildSection(),
             buildSection(),
           ],
-        ),
+        )
+        :
+        const Center(
+          child: CircularProgressIndicator(),
+        )
       ),
     );
   }

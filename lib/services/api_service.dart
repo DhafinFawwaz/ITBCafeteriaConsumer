@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:itb_cafeteria_consumer/model/auth/login_model.dart';
 import 'package:itb_cafeteria_consumer/model/auth/register_model.dart';
+import 'package:itb_cafeteria_consumer/model/product/suggestion_model.dart';
 import 'package:itb_cafeteria_consumer/model/profile/profile_edit_model.dart';
 import 'package:itb_cafeteria_consumer/model/profile/profile_model.dart';
 import 'package:itb_cafeteria_consumer/services/shared_service.dart';
@@ -110,4 +111,22 @@ class APIService {
     return jsonDecode(response.body)["data"]["image"];
   }
 
+  static Future<SuggestionResponse> getProductSuggestion(int locationId, int categoryId) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ${loginDetails!.data!.token}',
+    };
+
+    var url = Uri.parse('${Config.productSuggestionURL}?location_id=$locationId&category_id=$categoryId');
+    
+    print(url);
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+
+    return SuggestionResponse.fromJson(jsonDecode(response.body));
+  }
 }

@@ -27,15 +27,14 @@ class _ProfileState extends State<Profile> {
 
   void getUserProfile() async {
     StaticData.profileData = await APIService.getUserProfile();
+    setState(() {});
   }
   @override
   void initState() {
     super.initState();
     if(StaticData.profileData.message == "")
     {
-      setState(() {
-        getUserProfile();
-      });
+      getUserProfile();
     }
   }
 
