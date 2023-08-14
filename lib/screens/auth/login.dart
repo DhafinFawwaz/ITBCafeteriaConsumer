@@ -76,6 +76,13 @@ class _LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
+              const SizedBox(height: 20,),
+              Image.asset(
+                'assets/images/icon/icon.png',
+                height: 100,
+              ),
+              const SizedBox(height: 20,),
+              
               const Text(
                 "Login",
                 style: TextStyle(

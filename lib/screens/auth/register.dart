@@ -78,6 +78,13 @@ class _RegisterPageState extends State<RegisterPage> {
               key: _formKey,
               child: ListView(
                 children: [
+
+                  const SizedBox(height: 20,),
+                  Image.asset(
+                    'assets/images/icon/icon.png',
+                    height: 100,
+                  ),
+                  const SizedBox(height: 20,),
                   
                   const SizedBox(height: 60),
                   const Text(
