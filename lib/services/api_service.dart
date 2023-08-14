@@ -159,7 +159,7 @@ class APIService {
       'Content-type': 'application/json',
       'Authorization': 'Bearer ${loginDetails!.data!.token}'
     };
-    var uri = Uri.parse('${Config.addOrderByIdURL}?product_id=$orderId');
+    var uri = Uri.parse('${Config.addOrderByIdURL}?order_id=$orderId');
 
     var response = await client.post(
       uri,
@@ -174,7 +174,7 @@ class APIService {
       'Content-type': 'application/json',
       'Authorization': 'Bearer ${loginDetails!.data!.token}'
     };
-    var uri = Uri.parse('${Config.reduceOrderURL}?product_id=$orderId');
+    var uri = Uri.parse('${Config.reduceOrderURL}?order_id=$orderId');
 
     var response = await client.post(
       uri,

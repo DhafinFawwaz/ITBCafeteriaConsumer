@@ -17,7 +17,6 @@ class _SearchState extends State<Search> {
     return SafeArea(
       child: ListView(
           children: [
-          Image(image: AssetImage("assets/images/decorator.png")),
           Padding(
             padding: const EdgeInsets.all(GlobalTheme.padding1),
             child: Column(

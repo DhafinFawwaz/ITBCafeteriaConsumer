@@ -6,7 +6,9 @@ import 'package:itb_cafeteria_consumer/utils/GlobalTheme.dart';
 import '../../widgets/rounded_button.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required this.animateToCart});
+
+  final VoidCallback animateToCart;
 
   @override
   State<Home> createState() => _HomeState();
@@ -19,7 +21,7 @@ class _HomeState extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => KantinPage(locationId: locationId),
+        builder: (BuildContext context) => KantinPage(locationId: locationId, animateToCart: widget.animateToCart),
       ),
     );
   }

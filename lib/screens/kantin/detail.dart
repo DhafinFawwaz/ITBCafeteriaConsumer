@@ -24,11 +24,13 @@ class _DetailPageState extends State<DetailPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.network(
-            widget.imageLink,
-            fit: BoxFit.cover,
+          FittedBox(
+            child: Image.network(
+              widget.imageLink,
+            ),
+            fit: BoxFit.fill,
           ),
-          Spacer(),
+            
           Align(
           alignment: Alignment.bottomCenter,
           child: Container(

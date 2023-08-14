@@ -12,7 +12,8 @@ import '../../widgets/rounded_button.dart';
 import 'detail.dart';
 
 class KantinPage extends StatefulWidget {
-  const KantinPage({super.key, required this.locationId});
+  const KantinPage({super.key, required this.locationId, required this.animateToCart});
+  final VoidCallback animateToCart;
 
   final int locationId;
   @override
@@ -78,7 +79,12 @@ class _KantinPageState extends State<KantinPage> {
     ),
   );
 
-  void NavigateToCart() {
+  void navigateToCart() async {
+    Navigator.pushNamed(context, '/home').then((_) => {
+      print("--------------burh--------------"),
+      widget.animateToCart(),
+      print("burh2"),
+    });
     
   }
 
@@ -106,7 +112,7 @@ class _KantinPageState extends State<KantinPage> {
   Widget build(BuildContext context) {
 
     Widget CartButon = ElevatedButton(
-      onPressed: NavigateToCart,
+      onPressed: navigateToCart,
       
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
@@ -123,9 +129,11 @@ class _KantinPageState extends State<KantinPage> {
         height: 20,
         child: Center(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Spacer(),
               Text(
-                "  ",
+                "See Cart",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   color: Colors.white,

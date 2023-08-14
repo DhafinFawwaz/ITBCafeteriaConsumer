@@ -2,9 +2,9 @@
     package="com.kelompok23.itb_cafeteria_consumer">
    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="ITB Cafeteria Consumer"
+        android:label="ITBite"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -43,17 +43,21 @@ class BottomTab extends StatelessWidget {
   }
 }
 
-class _NavPageState extends State<NavPage> {
+class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
 
+  void animateToCart() {
+    print(5);
+    DefaultTabController.of(context).animateTo(5);
+  }
   
   @override
   Widget build(BuildContext context) {
     // hello world in middle text
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 5,
       child: Scaffold(
 
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: const BottomAppBar(
           elevation: 0,
           child: TabBar(
             labelColor: GlobalTheme.slate800,
@@ -72,11 +76,11 @@ class _NavPageState extends State<NavPage> {
           children: [
             TabBarView(
               children: [
-                Home(),
-                Search(),
-                History(),
-                Cart(),
-                Profile(),
+                Home(animateToCart: animateToCart),
+                const Search(),
+                const History(),
+                const Cart(),
+                const Profile(),
               ],
             ),
             GlobalTheme.topBg,
